@@ -1,0 +1,382 @@
+body {
+	font-family: 'Inter', sans-serif;
+}
+
+.stage {
+	display: flex;
+	min-height: 100vh;
+}
+
+.frame {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+
+/* Empty scaffold frame sitting to the right of the button frame */
+.frame--empty {
+	border-left: 1px solid #e7e6f2;
+}
+
+/* AI chat screen: top-aligned column of messages */
+#ai-thinking {
+	position: relative;
+	align-items: stretch;
+}
+
+.chat {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%;
+	padding: 40px;
+}
+
+.chat__msg {
+	max-width: 75%;
+	padding: 12px 18px;
+	font-size: 16px;
+	line-height: 1.45;
+	color: #0c0b0d;
+	border-radius: 18px;
+}
+
+/* User message: light bubble pinned to the right */
+.chat__msg--user {
+	align-self: flex-end;
+	background: #f1eff5;
+	border-bottom-right-radius: 6px;
+}
+
+/* AI thinking indicator: only the variant chosen in the dropdown is shown */
+.chat__thinking {
+	display: none;
+	align-items: center;
+	gap: 10px;
+	color: #6b6b78;
+	font-size: 16px;
+}
+
+.chat[data-indicator='v1'] .chat__thinking[data-variant='v1'],
+.chat[data-indicator='v2'] .chat__thinking[data-variant='v2'] {
+	display: flex;
+}
+
+/* v1: spinning ring */
+.chat__spinner {
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	border: 2.5px solid var(--gbi-color-3, #463ff4);
+	border-top-color: transparent;
+	border-right-color: transparent;
+	animation: chat-spin 0.7s linear infinite;
+}
+
+@keyframes chat-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* v2: astroid icon spinning to the left of the label. Rotation shares the
+   shimmer's 1.8s period so the spin and the gradient sweep stay in lockstep. */
+.chat__astroid {
+	width: 18px;
+	height: 18px;
+	flex: none;
+	animation: chat-astroid-spin 1.8s linear infinite;
+}
+
+@keyframes chat-astroid-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* v2: a brand-gradient band sweeps left-to-right across the text. The base
+   gray keeps the label legible; the coloured band travels via a moving
+   background-position, clipped to the glyphs. */
+.chat__shimmer {
+	font-size: 16px;
+	font-weight: 500;
+	background-image: linear-gradient(
+		90deg,
+		#a7a7b2 0%,
+		#a7a7b2 38%,
+		#499dff 46%,
+		#b263e2 50%,
+		#463ff4 54%,
+		#a7a7b2 62%,
+		#a7a7b2 100%
+	);
+	background-size: 250% 100%;
+	background-repeat: no-repeat;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: chat-shimmer 1.8s linear infinite;
+}
+
+@keyframes chat-shimmer {
+	from {
+		background-position: 100% 0;
+	}
+	to {
+		background-position: 0% 0;
+	}
+}
+
+/* Loading indicator variant picker, pinned to the frame's bottom-left */
+.chat__controls {
+	position: absolute;
+	left: 24px;
+	bottom: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.chat__control-label {
+	font-size: 11px;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: #9a9aa5;
+}
+
+.chat__select {
+	font-family: inherit;
+	font-size: 14px;
+	color: #0c0b0d;
+	padding: 8px 12px;
+	border: 1px solid #e7e6f2;
+	border-radius: 8px;
+	background: #ffffff;
+	cursor: pointer;
+}
+
+.panel {
+	display: flex;
+	align-items: center;
+	gap: 56px;
+	padding: 44px 60px;
+	background: #ffffff;
+	border: 1px solid #ececf3;
+	border-radius: 20px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
+}
+
+.panel__variant {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+
+.panel__caption {
+	font-size: 13px;
+	font-weight: 500;
+	color: #979797;
+	letter-spacing: 0.01em;
+}
+
+.gbi-btn {
+	--gbi-font-size: 16px;
+	--gbi-border-width: 2px;
+	--gbi-radius: 8px;
+	--gbi-arc: 35;
+	--gbi-ring-opacity: 0.35;
+	--gbi-color-1: #499dff;
+	--gbi-color-2: #b263e2;
+	--gbi-color-3: #463ff4;
+	--gbi-glow: 10px;
+	--gbi-glow-opacity: 0.6;
+	--gbi-speed: 1.8s;
+	--gbi-direction: normal;
+	--gbi-play: running;
+	--gbi-bg: #ffffff;
+	--gbi-border-color: #e7e6f2;
+	/* Gradient rings hold for 2s, then fade over 0.6s to reveal the border */
+	--gbi-fade: 3.6s;
+}
+
+@property --gbi-angle {
+	syntax: '<angle>';
+	inherits: true;
+	initial-value: 0deg;
+}
+
+/* Gradient/03 from the Mobile App Library — reserved for AI actions */
+.gbi-btn {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.15em;
+	padding: 0.7em 0.75em;
+	font-size: var(--gbi-font-size, 16px);
+	font-family: inherit;
+	font-weight: 600;
+	line-height: 1.4;
+	border: var(--gbi-border-width, 2px) solid var(--gbi-border-color, #e7e6f2);
+	cursor: pointer;
+	background: var(--gbi-bg, #ffffff);
+	border-radius: var(--gbi-radius, 8px);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+
+.gbi-btn .gbi-plus {
+	width: 1.25em;
+	height: 1.25em;
+	flex: none;
+}
+
+/* Keep the icon and label above the gradient fill layer */
+.gbi-btn .gbi-plus,
+.gbi-btn .gbi-label {
+	position: relative;
+	z-index: 1;
+}
+
+.gbi-btn .gbi-label {
+	padding: 0 0.25em;
+	color: #0c0b0d;
+}
+
+/* Clipping mask for the gradient fill: a rounded box (matching the inner
+   corner radius) that keeps the circular fill contained within the button.
+   The inner layer is a blurred circle carrying the Figma "Gradient/03" tint;
+   JS positions its centre at the cursor's entry point and scales it up. */
+.gbi-btn .gbi-fill {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	border-radius: calc(var(--gbi-radius, 8px) - var(--gbi-border-width, 2px));
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.gbi-btn .gbi-fill-inner {
+	position: absolute;
+	left: var(--gbi-fill-x, 50%);
+	top: var(--gbi-fill-y, 50%);
+	width: var(--gbi-fill-size, 240px);
+	height: var(--gbi-fill-size, 240px);
+	border-radius: 50%;
+	background: linear-gradient(
+		85.6deg,
+		rgba(73, 157, 255, 0.24) 7.7%,
+		rgba(178, 99, 226, 0.24) 41.2%,
+		rgba(70, 63, 244, 0.24) 104%
+	);
+	filter: blur(1.5px);
+	/* Grow from the entry point: translate centres the circle on (x, y),
+	   scale animates the reveal */
+	transform: translate(-50%, -50%) scale(0);
+	transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Three border layers, all masked to a ring: a static full ring,
+   the travelling gradient arc, and the arc's blurred glow copy */
+.gbi-btn .gbi-ring,
+.gbi-btn::before,
+.gbi-btn::after {
+	position: absolute;
+	inset: calc(var(--gbi-border-width, 1.5px) * -1);
+	padding: var(--gbi-border-width, 1.5px);
+	border-radius: calc(var(--gbi-radius, 8px) + var(--gbi-border-width, 1.5px));
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	mask-composite: exclude;
+	pointer-events: none;
+}
+
+.gbi-btn .gbi-ring {
+	background: conic-gradient(
+		from 220deg,
+		var(--gbi-color-1, #499dff),
+		var(--gbi-color-2, #b263e2),
+		var(--gbi-color-3, #463ff4),
+		var(--gbi-color-1, #499dff)
+	);
+	opacity: var(--gbi-ring-opacity, 0.35);
+	animation: gbi-fade-ring var(--gbi-fade, 2.6s) ease forwards;
+}
+
+.gbi-btn::before,
+.gbi-btn::after {
+	content: '';
+	background: conic-gradient(
+		from var(--gbi-angle),
+		transparent 0%,
+		var(--gbi-color-1, #499dff) calc(var(--gbi-arc, 35) * 0.25%),
+		var(--gbi-color-2, #b263e2) calc(var(--gbi-arc, 35) * 0.55%),
+		var(--gbi-color-3, #463ff4) calc(var(--gbi-arc, 35) * 0.85%),
+		transparent calc(var(--gbi-arc, 35) * 1%)
+	);
+	animation: gbi-spin var(--gbi-speed, 2s) linear infinite,
+		gbi-fade-arc var(--gbi-fade, 2.6s) ease forwards;
+	animation-play-state: var(--gbi-play, running);
+	animation-direction: var(--gbi-direction, normal);
+}
+
+.gbi-btn::after {
+	filter: blur(var(--gbi-glow, 10px));
+	opacity: var(--gbi-glow-opacity, 0.6);
+	animation: gbi-spin var(--gbi-speed, 2s) linear infinite,
+		gbi-fade-glow var(--gbi-fade, 2.6s) ease forwards;
+}
+
+/* --loop variant: rings never fade — the gradient rotation runs forever.
+   Drop the fade animations so the static ring stays lit and the arc/glow
+   keep spinning indefinitely. */
+.gbi-btn--loop .gbi-ring {
+	animation: none;
+}
+
+.gbi-btn--loop::before,
+.gbi-btn--loop::after {
+	animation: gbi-spin var(--gbi-speed, 1.5s) linear infinite;
+}
+
+@keyframes gbi-spin {
+	to {
+		--gbi-angle: 360deg;
+	}
+}
+
+/* Hold the gradient rings visible for ~2s (77% of --gbi-fade), then fade to 0.
+   Each keeps its own resting opacity while held so nothing jumps at the start. */
+@keyframes gbi-fade-ring {
+	0%,
+	77% {
+		opacity: var(--gbi-ring-opacity, 0.35);
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes gbi-fade-arc {
+	0%,
+	77% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes gbi-fade-glow {
+	0%,
+	77% {
+		opacity: var(--gbi-glow-opacity, 0.6);
+	}
+	100% {
+		opacity: 0;
+	}
+}

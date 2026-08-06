@@ -1,0 +1,263 @@
+/* Tokens lifted from the CrOS Library Figma file (exportDialog, node 20734:23438) */
+:root {
+	--color-fill-background-base: #ffffff;
+	--color-fill-background-elevated: #ffffff;
+	--color-fill-interaction-primary: #405dff;
+	--color-stroke-divider: #e7e6f2;
+	--color-stroke-interaction-default: #e7e6f2;
+	--color-text-primary: #0c0b0d;
+	--color-text-on-interaction-primary: #ffffff;
+
+	--spacing-x-small: 8px;
+	--spacing-small: 12px;
+	--spacing-x-large: 24px;
+	--gap-between-button: 8px;
+
+	--radius-8: 8px;
+	--radius-button-control: 8px;
+	--radius-medium: 16px;
+
+	--font-size-body: 14px;
+	--font-line-height-body: 20px;
+	--font-size-subheading: 14px;
+	--font-line-height-subheading: 20px;
+	--font-size-title-section: 18px;
+	--font-line-height-title-section: 22px;
+
+	--elevation-level-3: 0 8px 16px 0 rgba(24, 24, 24, 0.16);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	font-feature-settings: 'ss03' 1;
+	color: var(--color-text-primary);
+}
+
+/* The blank page: white base with the design's black 80% overlay on top. */
+.overlay {
+	position: relative;
+	min-height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	background-color: #fff;
+	background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+/* --- Dialog ------------------------------------------------------------- */
+/* The two knobs under test. The body is the only flexible track, so the
+   header and footer always stay pinned once max-height caps the dialog. */
+.dialog {
+	display: flex;
+	flex-direction: column;
+	width: var(--dialog-width, 480px);
+	max-width: 100%;
+	max-height: var(--dialog-max-height, 80vh);
+	overflow: hidden;
+	background: var(--color-fill-background-elevated);
+	border: 1px solid var(--color-stroke-divider);
+	border-radius: var(--radius-medium);
+	box-shadow: var(--elevation-level-3);
+}
+
+.dialog__header {
+	flex: 0 0 auto;
+	padding: var(--spacing-x-large);
+	background: var(--color-fill-background-elevated);
+}
+
+.dialog__title-bar {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-x-small);
+	height: 32px;
+}
+
+.dialog__title {
+	flex: 1 1 0;
+	min-width: 0;
+	margin: 0;
+	font-size: var(--font-size-title-section);
+	line-height: var(--font-line-height-title-section);
+	font-weight: 600;
+	word-break: break-word;
+}
+
+.dialog__body {
+	flex: 1 1 auto;
+	min-height: 0; /* lets the flex child actually shrink and scroll */
+	overflow-y: auto;
+	overflow-x: clip;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 0 var(--spacing-x-large);
+}
+
+.dialog__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.dialog__filename {
+	margin: 0 0 var(--spacing-x-large);
+	font-size: var(--font-size-body);
+	line-height: var(--font-line-height-body);
+	font-weight: 400;
+	word-break: break-word;
+}
+
+.dialog__filename strong {
+	font-weight: 600;
+}
+
+.dialog__footer {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--gap-between-button);
+	padding: var(--spacing-x-large);
+	background: var(--color-fill-background-base);
+}
+
+/* --- Row ---------------------------------------------------------------- */
+.row {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-x-small);
+	padding: var(--spacing-x-small);
+	border: 1px solid var(--color-stroke-divider);
+	border-radius: var(--radius-8);
+}
+
+.row__checkbox-hit {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	flex: 0 0 auto;
+}
+
+.checkbox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	border: 1px solid var(--color-stroke-divider);
+	border-radius: 2px;
+}
+
+.checkbox--selected {
+	background: var(--color-fill-interaction-primary);
+	border-color: var(--color-fill-interaction-primary);
+}
+
+.row__label {
+	flex: 1 1 0;
+	min-width: 0;
+	font-size: var(--font-size-body);
+	line-height: var(--font-line-height-body);
+	font-weight: 600;
+	word-break: break-word;
+}
+
+.selector {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	height: 32px;
+	padding: 0 var(--spacing-x-small) 0 var(--spacing-small);
+	border-radius: var(--radius-button-control);
+	font-size: var(--font-size-subheading);
+	line-height: var(--font-line-height-subheading);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+/* --- Buttons ------------------------------------------------------------ */
+.icon-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-button-control);
+	background: transparent;
+	color: var(--color-text-primary);
+	cursor: pointer;
+}
+
+.button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	min-width: 80px;
+	padding: 0 calc(var(--spacing-small) + 4px);
+	border-radius: var(--radius-button-control);
+	font-family: inherit;
+	font-size: var(--font-size-subheading);
+	line-height: var(--font-line-height-subheading);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.button--secondary {
+	border: 1px solid var(--color-stroke-interaction-default);
+	background: transparent;
+	color: var(--color-text-primary);
+}
+
+.button--primary {
+	border: 1px solid var(--color-fill-interaction-primary);
+	background: var(--color-fill-interaction-primary);
+	color: var(--color-text-on-interaction-primary);
+}
+
+/* --- Measurement readout ------------------------------------------------ */
+.hud {
+	position: fixed;
+	left: 16px;
+	bottom: 16px;
+	width: 260px;
+	padding: 12px 14px;
+	border-radius: 10px;
+	background: rgba(20, 20, 22, 0.92);
+	color: #e8e8ea;
+	font-size: 12px;
+	line-height: 18px;
+	font-variant-numeric: tabular-nums;
+}
+
+.hud__row {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.hud__row span {
+	color: #9a9aa2;
+}
+
+.hud--on {
+	color: #7ee08a;
+}

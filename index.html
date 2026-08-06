@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<!-- Shared plus icon: defined once, referenced by each button via <use> -->
+		<svg width="0" height="0" aria-hidden="true" style="position: absolute">
+			<defs>
+				<linearGradient
+					id="gbiPlusGrad"
+					x1="3"
+					y1="3"
+					x2="17"
+					y2="17"
+					gradientUnits="userSpaceOnUse"
+				>
+					<stop offset="0" style="stop-color: var(--gbi-color-1, #499dff)" />
+					<stop offset="0.5" style="stop-color: var(--gbi-color-2, #b263e2)" />
+					<stop offset="1" style="stop-color: var(--gbi-color-3, #463ff4)" />
+				</linearGradient>
+				<symbol id="gbiPlus" viewBox="0 0 20 20">
+					<path
+						d="M7.29786 4.35047C7.53708 3.70463 8.40933 3.66424 8.72755 4.22938L8.78321 4.35047L10.4961 8.98035L15.127 10.6942C15.8161 10.9493 15.8161 11.9245 15.127 12.1796L10.4961 13.8925L8.78321 18.5233C8.52809 19.2123 7.55296 19.2124 7.29786 18.5233L5.58399 13.8925L0.954109 12.1796C0.265332 11.9243 0.265262 10.9494 0.954109 10.6942L5.58399 8.98035L7.29786 4.35047ZM6.6836 9.61219C6.60341 9.82883 6.43248 9.99979 6.21583 10.08L2.54884 11.4364L6.21583 12.7938C6.40536 12.864 6.56005 13.0036 6.64942 13.1825L6.6836 13.2616L8.04005 16.9276L9.39747 13.2616L9.43165 13.1825C9.52103 13.0035 9.67562 12.864 9.86524 12.7938L13.5313 11.4364L9.86524 10.08C9.64859 9.99979 9.47767 9.82882 9.39747 9.61219L8.04005 5.9452L6.6836 9.61219ZM15.3848 1.12977C15.4387 0.985263 15.6435 0.985091 15.6973 1.12977L16.6953 3.82898C16.7122 3.87454 16.7484 3.91071 16.794 3.92762L19.4932 4.92664C19.6382 4.98035 19.6383 5.18545 19.4932 5.23914L16.794 6.23816C16.7486 6.25505 16.7122 6.29043 16.6953 6.33582L15.6973 9.03504C15.6436 9.18014 15.4385 9.18014 15.3848 9.03504L14.3857 6.33582C14.3688 6.29041 14.3326 6.25502 14.2871 6.23816L11.5879 5.23914C11.443 5.18541 11.443 4.98043 11.5879 4.92664L14.2871 3.92762C14.3327 3.91073 14.3689 3.87459 14.3857 3.82898L15.3848 1.12977Z"
+						fill="url(#gbiPlusGrad)"
+					/>
+				</symbol>
+			</defs>
+		</svg>
+
+		<div class="stage">
+			<div class="frame" id="button-gradient">
+				<div class="panel">
+					<div class="panel__variant">
+						<button class="gbi-btn gbi-btn--loop">
+							<span class="gbi-fill"><span class="gbi-fill-inner"></span></span>
+							<span class="gbi-ring"></span>
+							<svg class="gbi-plus" aria-hidden="true"><use href="#gbiPlus" /></svg>
+							<span class="gbi-label">Ask AI</span>
+						</button>
+						<span class="panel__caption">Loops forever</span>
+					</div>
+
+					<div class="panel__variant">
+						<button class="gbi-btn">
+							<span class="gbi-fill"><span class="gbi-fill-inner"></span></span>
+							<span class="gbi-ring"></span>
+							<svg class="gbi-plus" aria-hidden="true"><use href="#gbiPlus" /></svg>
+							<span class="gbi-label">Ask AI</span>
+						</button>
+						<span class="panel__caption">Fades after 3.6s</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- AI chat screen prototype -->
+			<div class="frame frame--empty" id="ai-thinking">
+				<div class="chat" data-indicator="v1">
+					<div class="chat__msg chat__msg--user">
+						Show me the risk of the ACME project
+					</div>
+
+					<!-- v1 (default): spinner + label -->
+					<div class="chat__thinking" data-variant="v1" role="status" aria-live="polite">
+						<span class="chat__spinner" aria-hidden="true"></span>
+						<span class="chat__thinking-label">AI thinking...</span>
+					</div>
+
+					<!-- v2: spinning astroid + gradient sweeping left-to-right across the text -->
+					<div class="chat__thinking" data-variant="v2" role="status" aria-live="polite">
+						<svg
+							class="chat__astroid"
+							viewBox="0 0 24 24"
+							fill="none"
+							aria-hidden="true"
+						>
+							<defs>
+								<!-- Same colour stops as .chat__shimmer, spread across a 2.5x-wide
+								     band (matching the text's 250% background-size) and swept via
+								     SMIL over 1.8s so the icon shimmers in step with the label. -->
+								<linearGradient
+									id="aiShimmerGrad"
+									gradientUnits="userSpaceOnUse"
+									x1="0"
+									y1="0"
+									x2="60"
+									y2="0"
+								>
+									<stop offset="0" stop-color="#a7a7b2" />
+									<stop offset="0.38" stop-color="#a7a7b2" />
+									<stop offset="0.46" stop-color="#499dff" />
+									<stop offset="0.5" stop-color="#b263e2" />
+									<stop offset="0.54" stop-color="#463ff4" />
+									<stop offset="0.62" stop-color="#a7a7b2" />
+									<stop offset="1" stop-color="#a7a7b2" />
+									<animateTransform
+										attributeName="gradientTransform"
+										type="translate"
+										from="-36 0"
+										to="0 0"
+										dur="1.8s"
+										repeatCount="indefinite"
+									/>
+								</linearGradient>
+							</defs>
+							<path
+								d="M12.983 21.186a1 1 0 0 1-1.966 0 10 10 0 0 0-8.203-8.203 1 1 0 0 1 0-1.966 10 10 0 0 0 8.203-8.203 1 1 0 0 1 1.966 0 10 10 0 0 0 8.203 8.203 1 1 0 0 1 0 1.966 10 10 0 0 0-8.203 8.203"
+								stroke="url(#aiShimmerGrad)"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+						<span class="chat__shimmer">AI thinking...</span>
+					</div>
+				</div>
+
+				<!-- Loading indicator variant picker (bottom-left) -->
+				<div class="chat__controls">
+					<label class="chat__control-label" for="indicator-variant">
+						Loading indicator
+					</label>
+					<select id="indicator-variant" class="chat__select">
+						<option value="v1">AI thinking</option>
+						<option value="v2">AI thinking v2</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// Grow the circular gradient from wherever the cursor crosses the
+			// button edge. CSS can't know the entry point, so we set the circle
+			// centre (as CSS vars) on pointer enter/leave and toggle its scale.
+			function placeFill(event, btn, fill) {
+				const r = btn.getBoundingClientRect()
+				// Circle must be big enough to cover the button from any edge
+				// point — the diagonal is the worst-case reach, plus margin so
+				// the blurred edge still clears the far corner.
+				const size = 2.3 * Math.hypot(r.width, r.height)
+				fill.style.setProperty('--gbi-fill-x', event.clientX - r.left + 'px')
+				fill.style.setProperty('--gbi-fill-y', event.clientY - r.top + 'px')
+				fill.style.setProperty('--gbi-fill-size', size + 'px')
+			}
+
+			document.querySelectorAll('.gbi-btn').forEach((btn) => {
+				const fill = btn.querySelector('.gbi-fill-inner')
+				if (!fill) return
+
+				btn.addEventListener('pointerenter', (e) => {
+					placeFill(e, btn, fill)
+					fill.style.transform = 'translate(-50%, -50%) scale(1)'
+				})
+
+				btn.addEventListener('pointerleave', (e) => {
+					// Collapse back toward the edge the cursor exits.
+					placeFill(e, btn, fill)
+					fill.style.transform = 'translate(-50%, -50%) scale(0)'
+				})
+			})
+
+			// Switch the AI loading indicator variant from the dropdown.
+			const indicatorSelect = document.getElementById('indicator-variant')
+			const chatEl = document.querySelector('.chat')
+			if (indicatorSelect && chatEl) {
+				indicatorSelect.addEventListener('change', (e) => {
+					chatEl.dataset.indicator = e.target.value
+				})
+			}
+		</script>
+	</body>
+</html>

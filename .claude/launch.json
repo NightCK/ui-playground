@@ -1,0 +1,22 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Static server",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "dialog-test/node_modules/vite/bin/vite.js",
+        "--port",
+        "8199",
+        "--strictPort"
+      ],
+      "port": 8199
+    },
+    {
+      "name": "Dialog test (vite)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "dialog-test", "run", "dev"],
+      "port": 5180
+    }
+  ]
+}
