@@ -44,16 +44,22 @@ body {
 	color: var(--color-text-primary);
 }
 
-/* The blank page: white base with the design's black 80% overlay on top. */
-.overlay {
+/* The stage is whatever sits behind the overlay: nothing in the plain scene,
+   the static app screen in the Share scene. */
+.stage {
 	position: relative;
 	min-height: 100%;
+	background: #fff;
+}
+
+.overlay {
+	position: fixed;
+	inset: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 16px;
-	background-color: #fff;
-	background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%);
+	background: rgba(0, 0, 0, 0.8);
 }
 
 /* --- Dialog ------------------------------------------------------------- */
@@ -260,4 +266,467 @@ body {
 
 .hud--on {
 	color: #7ee08a;
+}
+
+/* --- Share dialog ------------------------------------------------------- */
+/* Same three-track layout as the export dialog: only the people list scrolls,
+   so the quick-share footer stays put however many people are listed. */
+.dialog--share {
+	border-radius: var(--radius-8);
+}
+
+.dialog__header--share {
+	padding: 32px var(--spacing-x-large);
+}
+
+.share__invite {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: flex-start;
+	gap: var(--spacing-x-small);
+	padding: 0 var(--spacing-x-large);
+}
+
+.field {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	min-height: 40px;
+	padding: 4px var(--spacing-x-small) 4px var(--spacing-small);
+	border: 1px solid var(--color-stroke-interaction-default);
+	border-radius: 4px;
+	background: var(--color-fill-background-base);
+}
+
+.field__chips {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.chip {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 32px;
+	padding: 0 4px 0 var(--spacing-x-small);
+	border: 1px solid var(--color-stroke-interaction-default);
+	border-radius: 4px;
+	background: rgba(12, 11, 13, 0.04);
+	font-size: var(--font-size-body);
+	line-height: var(--font-line-height-body);
+	white-space: nowrap;
+}
+
+.chip__remove {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	color: var(--color-text-primary);
+}
+
+.avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 32px;
+	height: 32px;
+	border-radius: 999px;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.4;
+}
+
+.avatar--24 {
+	width: 24px;
+	height: 24px;
+	font-size: 12px;
+}
+
+.selector--plain {
+	height: 32px;
+	padding: 0 var(--spacing-x-small);
+	font-weight: 400;
+	justify-content: flex-end;
+}
+
+.selector--inline {
+	height: 24px;
+	padding: 0;
+}
+
+.dialog__body--share {
+	gap: 16px;
+	padding-top: 16px;
+}
+
+.share__section-title {
+	margin: 0;
+	font-size: var(--font-size-body);
+	line-height: var(--font-line-height-body);
+	font-weight: 600;
+}
+
+.share__people {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-x-small);
+}
+
+.person {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: var(--spacing-x-small) 4px;
+}
+
+.person__name {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: var(--font-size-body);
+	line-height: var(--font-line-height-body);
+	font-weight: 600;
+}
+
+.dialog__footer--share {
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+	gap: 12px;
+	padding: 16px var(--spacing-x-large) var(--spacing-x-large);
+	border-top: 1px solid var(--color-stroke-divider);
+}
+
+.quick-share {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	min-height: 54px;
+}
+
+.quick-share__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	flex: 0 0 auto;
+	border-radius: 999px;
+	background: #f5f5fa;
+}
+
+.quick-share__text {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.quick-share__description {
+	font-size: 12px;
+	line-height: 17px;
+	color: #7a7987;
+}
+
+.button--tertiary {
+	align-self: flex-start;
+	border: 0;
+	border-radius: 4px;
+	background: rgba(24, 24, 24, 0.08);
+	color: #181818;
+}
+
+/* --- Static app behind the overlay -------------------------------------- */
+.app {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background: #fff;
+	font-size: 13px;
+	line-height: 18px;
+	user-select: none;
+}
+
+.app__topbar {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 56px;
+	padding: 0 20px;
+	border-bottom: 1px solid var(--color-stroke-divider);
+}
+
+.app__brand {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 600;
+	color: #405dff;
+}
+
+.app__topbar-actions {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	color: #7a7987;
+}
+
+.app__main {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+}
+
+.app__nav {
+	flex: 0 0 160px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 16px 12px;
+	background: #f5f5fa;
+}
+
+.app__workspace {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+	padding: 6px 8px;
+	font-weight: 600;
+}
+
+.app__workspace-mark {
+	width: 20px;
+	height: 20px;
+	border-radius: 6px;
+	background: #181818;
+}
+
+.app__nav-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 7px 8px;
+	border-radius: 8px;
+	color: #43424d;
+}
+
+.app__nav-item--active {
+	background: #e6e6f2;
+	color: #405dff;
+	font-weight: 600;
+}
+
+.app__nav-dot {
+	width: 14px;
+	height: 14px;
+	border-radius: 4px;
+	border: 1.4px solid currentColor;
+	opacity: 0.7;
+}
+
+.app__list {
+	flex: 0 0 200px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 12px;
+	border-right: 1px solid var(--color-stroke-divider);
+	background: #fafafd;
+	overflow: hidden;
+}
+
+.app__search {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.app__search-field {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: 32px;
+	padding: 0 10px;
+	border: 1px solid var(--color-stroke-divider);
+	border-radius: 8px;
+	background: #fff;
+	color: #9a99a6;
+}
+
+.app__search-filter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: 1px solid var(--color-stroke-divider);
+	border-radius: 8px;
+	background: #fff;
+	color: #43424d;
+}
+
+.app__group-label {
+	margin: 4px 0 6px;
+	font-size: 12px;
+	color: #7a7987;
+}
+
+.app__meeting {
+	padding: 8px 10px;
+	border-radius: 8px;
+}
+
+.app__meeting--active {
+	background: #eceafc;
+}
+
+.app__meeting--active .app__meeting-title {
+	color: #405dff;
+}
+
+.app__meeting-title {
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.app__meeting-time {
+	font-size: 12px;
+	color: #7a7987;
+}
+
+.app__content {
+	flex: 1 1 0;
+	min-width: 0;
+	position: relative;
+	padding: 24px 32px;
+	overflow: hidden;
+}
+
+.app__content-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.app__title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	font-size: 24px;
+	line-height: 32px;
+	font-weight: 600;
+}
+
+.app__head-actions {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	color: #43424d;
+}
+
+.app__share-button {
+	padding: 7px 16px;
+	border-radius: 8px;
+	background: var(--color-fill-interaction-primary);
+	color: #fff;
+	font-weight: 600;
+}
+
+.app__meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.app__meta--muted {
+	color: #7a7987;
+}
+
+.app__meta-spacer {
+	flex: 1 1 0;
+}
+
+.app__chip {
+	padding: 5px 10px;
+	border: 1px solid var(--color-stroke-divider);
+	border-radius: 8px;
+}
+
+.app__doc {
+	margin-top: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	max-width: 700px;
+}
+
+.app__section-heading {
+	margin: 0 0 8px;
+	font-size: 15px;
+	line-height: 22px;
+	font-weight: 600;
+}
+
+.app__line {
+	display: flex;
+	gap: 8px;
+	margin: 0 0 8px;
+	color: #43424d;
+}
+
+.app__line::before {
+	content: '•';
+	color: #9a99a6;
+}
+
+.app__line--todo::before {
+	content: none;
+}
+
+.app__todo-box {
+	flex: 0 0 auto;
+	width: 14px;
+	height: 14px;
+	margin-top: 2px;
+	border: 1.4px solid #b6b5c2;
+	border-radius: 3px;
+}
+
+.app__ask-ai {
+	position: absolute;
+	right: 24px;
+	bottom: 24px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 14px;
+	border: 1px solid var(--color-stroke-divider);
+	border-radius: 999px;
+	background: #fff;
+	box-shadow: 0 4px 12px rgba(24, 24, 24, 0.12);
+	color: #405dff;
+	font-weight: 600;
 }
