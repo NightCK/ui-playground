@@ -20,10 +20,10 @@ export default function App() {
 					{ value: 'dialog', label: '純 dialog' },
 					{ value: 'share', label: 'Share Dialog' },
 				],
-				default: 'dialog',
+				default: 'share',
 			},
 			size: {
-				maxHeightVh: [85, 40, 100, 1],
+				maxHeightVh: [90, 40, 100, 1],
 				maxWidthVw: [90, 50, 100, 1],
 				widthPreset: {
 					type: 'select',
@@ -38,7 +38,7 @@ export default function App() {
 				...(preset === 'custom' ? { customWidth: [480, 320, 960, 4] } : {}),
 			},
 			content: {
-				itemCount: [20, 0, 80, 1],
+				itemCount: [15, 0, 80, 1],
 			},
 		}),
 		[preset],
