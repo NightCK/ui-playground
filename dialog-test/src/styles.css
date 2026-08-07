@@ -69,7 +69,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	width: var(--dialog-width, 480px);
-	max-width: 100%;
+	max-width: var(--dialog-max-width, 90vw);
 	max-height: var(--dialog-max-height, 80vh);
 	overflow: hidden;
 	background: var(--color-fill-background-elevated);

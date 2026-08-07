@@ -24,6 +24,7 @@ export default function App() {
 			},
 			size: {
 				maxHeightVh: [85, 40, 100, 1],
+				maxWidthVw: [90, 50, 100, 1],
 				widthPreset: {
 					type: 'select',
 					options: [
@@ -51,7 +52,7 @@ export default function App() {
 	);
 
 	const scene = dials.scene;
-	const { maxHeightVh, widthPreset, customWidth } = dials.size;
+	const { maxHeightVh, maxWidthVw, widthPreset, customWidth } = dials.size;
 	const { itemCount } = dials.content;
 
 	useEffect(() => {
@@ -73,7 +74,9 @@ export default function App() {
 			setMetrics({
 				viewport: window.innerHeight,
 				maxHeightPx: Math.round((window.innerHeight * maxHeightVh) / 100),
+				maxWidthPx: Math.round((window.innerWidth * maxWidthVw) / 100),
 				dialogHeight: Math.round(dialog.getBoundingClientRect().height),
+				dialogWidth: Math.round(dialog.getBoundingClientRect().width),
 				bodyVisible: Math.round(body.clientHeight),
 				bodyContent: Math.round(body.scrollHeight),
 			});
@@ -88,7 +91,7 @@ export default function App() {
 			observer.disconnect();
 			window.removeEventListener('resize', measure);
 		};
-	}, [maxHeightVh, width, itemCount, scene]);
+	}, [maxHeightVh, maxWidthVw, width, itemCount, scene]);
 
 	const scrolls = metrics ? metrics.bodyContent > metrics.bodyVisible + 1 : false;
 	const capped = metrics ? metrics.dialogHeight >= metrics.maxHeightPx - 1 : false;
@@ -104,7 +107,11 @@ export default function App() {
 					aria-modal="true"
 					aria-labelledby="dialog-title"
 					ref={dialogRef}
-					style={{ '--dialog-max-height': `${maxHeightVh}vh`, '--dialog-width': `${width}px` }}
+					style={{
+						'--dialog-max-height': `${maxHeightVh}vh`,
+						'--dialog-max-width': `${maxWidthVw}vw`,
+						'--dialog-width': `${width}px`,
+					}}
 				>
 					{scene === 'share' ? (
 						<ShareDialog count={itemCount} bodyRef={bodyRef} />
@@ -151,6 +158,17 @@ export default function App() {
 					<div className="hud__row">
 						<span>width ({widthPreset})</span>
 						<b>{width}px</b>
+					</div>
+					<div className="hud__row">
+						<span>max-width {maxWidthVw}vw</span>
+						<b>{metrics.maxWidthPx}px</b>
+					</div>
+					<div className="hud__row">
+						<span>dialog width</span>
+						<b>
+							{metrics.dialogWidth}px{' '}
+							{metrics.dialogWidth < width ? '(clamped)' : '(preset)'}
+						</b>
 					</div>
 				</div>
 			)}
