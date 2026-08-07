@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDialKit } from 'dialkit';
+import { useDialKitController } from 'dialkit';
 import AppBackground from './scenes/AppBackground.jsx';
 import ExportDialog from './scenes/ExportDialog.jsx';
 import ShareDialog from './scenes/ShareDialog.jsx';
@@ -40,17 +40,25 @@ export default function App() {
 			content: {
 				itemCount: [15, 0, 80, 1],
 			},
+			resetToDefaults: { type: 'action', label: 'Reset to defaults' },
 		}),
 		[preset],
 	);
 
-	const dials = useDialKit(
-		'Dialog',
-		config,
+	/* The panel has no built-in reset button, so the action control above calls
+	   the store's resetValues() — which restores the defaults declared here and
+	   overwrites what persistence saved. */
+	const controllerRef = useRef(null);
+	const controller = useDialKitController('Dialog', config, {
 		/* Key is versioned: bumping it lets new defaults win over saved values. */
-		{ persist: { key: 'dialog-playground-v3' } },
-	);
+		persist: { key: 'dialog-playground-v3' },
+		onAction: (action) => {
+			if (action === 'resetToDefaults') controllerRef.current?.resetValues();
+		},
+	});
+	controllerRef.current = controller;
 
+	const dials = controller.values;
 	const scene = dials.scene;
 	const { maxHeightVh, maxWidthVw, widthPreset, customWidth } = dials.size;
 	const { itemCount } = dials.content;
